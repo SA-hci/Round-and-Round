@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en" data-theme="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab Components — Round &amp; Round</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16130e;--paper:#f7f4ed;--ivory:#fbf9f3;--beige:#e9e2d3;--stone:#8b8373;
+  --hair:rgba(22,19,14,.16);--tile:#fcfaf5;--bg:var(--paper);--fg:var(--ink);
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+html[data-theme="noir"]{
+  --ink:#ece7dc;--paper:#0c0b09;--ivory:#121210;--beige:#16140f;--stone:#9b927f;
+  --hair:rgba(236,231,220,.16);--tile:#f4f1ea;--bg:#0c0b09;--fg:#ece7dc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.eyebrow{font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:400;color:var(--stone);margin:0}
+
+.topbar{position:fixed;inset:0 0 auto 0;z-index:60;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:24px clamp(20px,4vw,48px);font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:400;color:var(--fg);background:linear-gradient(to bottom,var(--bg) 30%,transparent)}
+.topbar .brand{justify-self:start;letter-spacing:.3em}
+.topbar .center{justify-self:center;text-align:center;white-space:nowrap;color:var(--stone)}
+.topbar .back{justify-self:end;display:inline-flex;align-items:center;gap:10px;transition:gap .35s ease,opacity .35s ease}
+.topbar .back:hover{gap:18px;opacity:.62}
+.topbar .back .arw{font-family:var(--serif);font-size:16px;letter-spacing:0}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:61;background:var(--fg);opacity:.5;transition:width .12s linear}
+
+.cover{min-height:78svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(110px,16vh,180px) clamp(20px,7vw,120px) clamp(40px,7vh,80px)}
+.cover .kicker{margin-bottom:clamp(26px,5vh,52px)}
+.cover h1{font-family:var(--serif);font-weight:300;font-size:clamp(48px,9.5vw,150px);line-height:.92;letter-spacing:-.018em;margin:0;max-width:14ch}
+.cover h1 em{font-style:italic;font-weight:400}
+.cover .lede{margin:clamp(28px,4vh,46px) 0 0;max-width:52ch;font-size:clamp(14px,1.15vw,17px);line-height:1.7;color:var(--fg);opacity:.78}
+.cover .meta{margin:clamp(22px,3vh,32px) 0 0;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+
+.group{padding:clamp(46px,8vh,104px) clamp(20px,7vw,120px) clamp(20px,4vh,40px)}
+.group.beige{background:var(--beige)}
+.grouphead{margin-bottom:clamp(28px,4vh,48px)}
+.grouptitle{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:6px 32px;margin-top:.4em}
+.grouptitle .glabel{font-family:var(--serif);font-weight:300;font-size:clamp(34px,5vw,72px);line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.grouptitle .gcount{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--stone)}
+
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(266px,1fr));gap:clamp(18px,2.2vw,30px)}
+.card{display:flex;flex-direction:column;border:1px solid var(--hair);background:var(--ivory);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease}
+.card:hover{transform:translateY(-5px);box-shadow:0 28px 60px -40px rgba(20,16,8,.6)}
+.card__media{aspect-ratio:5/4;background:var(--tile);border-bottom:1px solid var(--hair);display:grid;place-items:center;padding:clamp(20px,3vw,34px);overflow:hidden}
+.card__media img{max-height:100%;max-width:100%;width:auto;object-fit:contain;mix-blend-mode:multiply;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+.card:hover .card__media img{transform:scale(1.05)}
+.card__body{padding:clamp(18px,1.6vw,24px);display:flex;flex-direction:column;gap:.7em;flex:1}
+.card .sku{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin:0}
+.cardname{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.7vw,25px);line-height:1.08;letter-spacing:-.005em;margin:0}
+.blurb{font-size:13px;line-height:1.6;margin:0;opacity:.82;flex:1}
+.view{margin-top:.5em;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);display:inline-flex;align-items:center;gap:8px;transition:color .35s ease,gap .35s ease}
+.card:hover .view{color:var(--fg);gap:14px}
+.view .arw{font-family:var(--serif);font-size:16px;letter-spacing:0}
+
+.foot{background:var(--beige);padding:clamp(56px,9vh,110px) clamp(20px,7vw,120px) clamp(48px,7vh,84px)}
+.foot .big{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(22px,2.8vw,40px);line-height:1.15;max-width:20ch;margin:0}
+.footrow{margin-top:clamp(32px,5vh,56px);display:flex;flex-wrap:wrap;gap:20px 48px;align-items:flex-end;justify-content:space-between}
+.foot .fine{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--stone);max-width:40ch;line-height:2;margin:0}
+.backlink{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--fg);padding-bottom:6px;border-bottom:1px solid var(--fg);transition:gap .35s ease,opacity .35s ease}
+.backlink:hover{gap:20px;opacity:.62}
+.backlink .arw{font-family:var(--serif);font-size:18px;line-height:1;letter-spacing:0}
+
+html.reveal-on .reveal>*{opacity:0;transform:translateY(20px);transition:opacity 1s cubic-bezier(.22,.61,.36,1),transform 1.1s cubic-bezier(.22,.61,.36,1)}
+html.reveal-on .reveal.in>*{opacity:1;transform:none}
+html.reveal-on .reveal.in>*:nth-child(2){transition-delay:.08s}
+html.reveal-on .card{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease}
+html.reveal-on .group.in .card{opacity:1;transform:none}
+html.reveal-on .group.in .card:nth-child(2){transition-delay:.05s}
+html.reveal-on .group.in .card:nth-child(3){transition-delay:.10s}
+html.reveal-on .group.in .card:nth-child(4){transition-delay:.15s}
+html.reveal-on .group.in .card:nth-child(5){transition-delay:.20s}
+html.reveal-on .group.in .card:nth-child(6){transition-delay:.25s}
+html.reveal-on .group.shown .card,html.reveal-on .reveal.shown>*{opacity:1!important;transform:none!important}
+html.motion-off .reveal>*,html.motion-off .card{opacity:1!important;transform:none!important;transition:none!important}
+@media (prefers-reduced-motion:reduce){.reveal>*,.card{opacity:1!important;transform:none!important;transition:none!important}}
+@media (max-width:860px){
+  .topbar{grid-template-columns:1fr auto;gap:10px;padding:18px 20px}
+  .topbar .center{display:none}
+  .cover h1{font-size:clamp(42px,13vw,80px)}
+  .footrow{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('reveal-on');</script>
+
+<div class="topbar" id="topbar">
+  <a class="brand" href="Showcase.html">ROUND &amp; ROUND</a>
+  <div class="center">Lab Components</div>
+  <a class="back" href="Showcase.html"><span class="arw">←</span><span>BACK TO MAIN PAGE</span></a>
+</div>
+<div class="progress" id="progress"></div>
+
+<header class="cover" data-screen-label="Components cover">
+  <div class="reveal">
+    <p class="eyebrow kicker">Available Components · DFRobot Gravity</p>
+    <h1>The Parts<br><em>Drawer</em></h1>
+    <p class="lede">The building blocks available in our lab for this project include several DFRobot Gravity modules, grouped by the role they play in an interactive piece: what senses, what you touch, what sees, what sounds, and what moves. Stock varies by part; tap any card for full specs on DFRobot.</p>
+    <p class="meta">Inputs &nbsp;→&nbsp; Logic &nbsp;→&nbsp; Outputs</p>
+  </div>
+</header>
+
+<section class="group" data-screen-label="Sensors">
+  <div class="grouphead reveal">
+    <p class="eyebrow">Input · Sensing the world</p>
+    <div class="grouptitle"><span class="glabel">Sensors</span><span class="gcount">12 parts</span></div>
+  </div>
+  <div class="cardgrid">
+      <a class="card" href="https://www.dfrobot.com/product-83.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Analog Sound Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/DFR0034/DFR0034_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0034</p>
+          <h3 class="cardname">Gravity: Analog Sound Sensor</h3>
+          <p class="blurb">Detects ambient sound loudness as an analog signal — clap and noise-reactive projects.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1004.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Analog Ambient Light Sensor (1–6000 Lux)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/DFR0026/DFR0026_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0026</p>
+          <h3 class="cardname">Gravity: Analog Ambient Light Sensor (1–6000 Lux)</h3>
+          <p class="blurb">Reports light intensity as an analog voltage — light-reactive triggers and thresholds.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-399.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Digital Piezo Disk Vibration Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR0052/_DSC1039.JPG"></div>
+        <div class="card__body">
+          <p class="sku">DFR0052</p>
+          <h3 class="cardname">Gravity: Digital Piezo Disk Vibration Sensor</h3>
+          <p class="blurb">A piezo disk that outputs a voltage proportional to vibration strength — taps, knocks and tremors.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1832.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: URM09 Ultrasonic Distance Sensor (2–500cm, I²C)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/SEN0304/SEN0304_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0304</p>
+          <h3 class="cardname">Gravity: URM09 Ultrasonic Distance Sensor (2–500cm, I²C)</h3>
+          <p class="blurb">Fast I²C ultrasonic ranging up to 50Hz with temperature compensation — proximity and obstacle sensing.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1568.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Flexible Piezo Film Vibration Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/SEN0209/SEN0209_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0209</p>
+          <h3 class="cardname">Gravity: Flexible Piezo Film Vibration Sensor</h3>
+          <p class="blurb">Bendable piezo film detecting touch, impact and fine vibration, with adjustable sensitivity.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1546.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: TCS34725 RGB Color Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/SEN0212/SEN0212_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0212</p>
+          <h3 class="cardname">Gravity: TCS34725 RGB Color Sensor</h3>
+          <p class="blurb">Optical I²C sensor that reads red/green/blue values of nearby surfaces, with built-in white LEDs.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-76.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Analog LM35 Temperature Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/DFR0023/DFR0023_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0023</p>
+          <h3 class="cardname">Gravity: Analog LM35 Temperature Sensor</h3>
+          <p class="blurb">Linear analog temperature sensor (0–100°C) at 10mV/°C — ambient temperature sensing.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-119.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Digital Infrared (PIR) Motion Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/SEN0018/SEN0018_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0018</p>
+          <h3 class="cardname">Gravity: Digital Infrared (PIR) Motion Sensor</h3>
+          <p class="blurb">Detects movement from body heat across a 110° / 7m field — presence and motion triggers.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-2848.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Linear / Analog Hall Effect Sensor (±1200 GS)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR1132/DFR1132_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR1132</p>
+          <h3 class="cardname">Gravity: Linear / Analog Hall Effect Sensor (±1200 GS)</h3>
+          <p class="blurb">Measures magnetic field strength and polarity as an analog voltage — magnets, rotation, position.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-684.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: MQ5 LPG / Natural Gas Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/SEN0130/SEN0130_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0130</p>
+          <h3 class="cardname">Gravity: MQ5 LPG / Natural Gas Sensor</h3>
+          <p class="blurb">Semiconductor probe detecting LPG, propane and natural gas (200–10,000 ppm) as an analog signal.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-77.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Digital Tilt Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR0028/DFR0028_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0028</p>
+          <h3 class="cardname">Gravity: Digital Tilt Sensor</h3>
+          <p class="blurb">A rolling-ball switch that closes when upright and opens when tilted — orientation and shake detection.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1007.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Smart Grayscale Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/SEN0147/SEN0147_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0147</p>
+          <h3 class="cardname">Gravity: Smart Grayscale Sensor</h3>
+          <p class="blurb">Reflective sensor with digital and analog output for line-following and two-colour / grayscale detection.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+  </div>
+</section>
+<section class="group beige" data-screen-label="Controls">
+  <div class="grouphead reveal">
+    <p class="eyebrow">Input · A hand on the machine</p>
+    <div class="grouptitle"><span class="glabel">Controls</span><span class="gcount">03 parts</span></div>
+  </div>
+  <div class="cardgrid">
+      <a class="card" href="https://www.dfrobot.com/product-78.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Digital Capacitive Touch Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/DFR0030/DFR0030_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0030</p>
+          <h3 class="cardname">Gravity: Digital Capacitive Touch Sensor</h3>
+          <p class="blurb">Phone-style capacitive touch switch that senses a finger even through paper or cloth.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-73.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Digital Push Button (with LED)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR0029-Y/DFR0029-Y_260526%20(1).jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0029</p>
+          <h3 class="cardname">Gravity: Digital Push Button (with LED)</h3>
+          <p class="blurb">A large, satisfying momentary push button with an onboard LED — the simplest manual input.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-131.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Analog Slide Position (Potentiometer) Sensor" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR0053/DFR0053_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0053</p>
+          <h3 class="cardname">Gravity: Analog Slide Position (Potentiometer) Sensor</h3>
+          <p class="blurb">A linear slide potentiometer reporting slider position — fader-style continuous control, like a mixer.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+  </div>
+</section>
+<section class="group" data-screen-label="Vision &amp; AI">
+  <div class="grouphead reveal">
+    <p class="eyebrow">Input · Machine sight</p>
+    <div class="grouptitle"><span class="glabel">Vision &amp; AI</span><span class="gcount">01 parts</span></div>
+  </div>
+  <div class="cardgrid">
+      <a class="card" href="https://www.dfrobot.com/product-1922.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: HuskyLens K210 AI Camera" loading="lazy" src="https://dfimg.dfrobot.com/enshop/SEN0305/SEN0305_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0305</p>
+          <h3 class="cardname">Gravity: HuskyLens K210 AI Camera</h3>
+          <p class="blurb">No-code AI vision sensor — face, object, color, line &amp; tag recognition with a built-in screen.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+  </div>
+</section>
+<section class="group beige" data-screen-label="Sound &amp; Voice">
+  <div class="grouphead reveal">
+    <p class="eyebrow">Output · Making it speak &amp; sing</p>
+    <div class="grouptitle"><span class="glabel">Sound &amp; Voice</span><span class="gcount">03 parts</span></div>
+  </div>
+  <div class="cardgrid">
+      <a class="card" href="https://www.dfrobot.com/product-1741.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: MP3 Player Module (8MB, UART)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/DFR0534/DFR0534_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0534</p>
+          <h3 class="cardname">Gravity: MP3 Player Module (8MB, UART)</h3>
+          <p class="blurb">Plays MP3/WAV from 8MB onboard storage over UART with 30 volume levels — sound effects and voice prompts.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1507.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: Voice Recorder Module" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/SEN0197/SEN0197_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SEN0197</p>
+          <h3 class="cardname">Gravity: Voice Recorder Module</h3>
+          <p class="blurb">Press-and-hold to record up to 20s of audio and play it back through a speaker — talking, looping installations.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1121.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="DFPlayer Mini MP3 Player" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR0299/DFR0299_Back_04.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0299</p>
+          <h3 class="cardname">DFPlayer Mini MP3 Player</h3>
+          <p class="blurb">Tiny UART MP3 module with built-in 3W amp and microSD slot — drives a speaker directly, the maker classic for sound.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+  </div>
+</section>
+<section class="group" data-screen-label="Motion">
+  <div class="grouphead reveal">
+    <p class="eyebrow">Output · Things that move</p>
+    <div class="grouptitle"><span class="glabel">Motion</span><span class="gcount">04 parts</span></div>
+  </div>
+  <div class="cardgrid">
+      <a class="card" href="https://www.dfrobot.com/product-1427.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="Gravity: 130 DC Motor Module" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/DFR0411/DFR0411_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">DFR0411</p>
+          <h3 class="cardname">Gravity: 130 DC Motor Module</h3>
+          <p class="blurb">Brushed DC motor with an onboard transistor driver — PWM speed control with no separate driver board (fan included).</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1579.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="DF9GMS 360° Continuous-Rotation Micro Servo" loading="lazy" src="https://dfimg.dfrobot.com/enshop/SER0043/SER0043_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SER0043</p>
+          <h3 class="cardname">DF9GMS 360° Continuous-Rotation Micro Servo</h3>
+          <p class="blurb">Lightweight continuous-rotation servo — controllable spin direction and speed, plug-and-play with no driver.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-1338.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="9g Metal-Gear Micro Servo (180°, 1.8 kg·cm)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/SER0039/SER0039_Main_01.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SER0039</p>
+          <h3 class="cardname">9g Metal-Gear Micro Servo (180°, 1.8 kg·cm)</h3>
+          <p class="blurb">Small but strong metal-gear servo with precise 180° positioning — pan/tilt rigs and small mechanisms.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+      <a class="card" href="https://www.dfrobot.com/product-236.html" target="_blank" rel="noopener">
+        <div class="card__media"><img alt="DSS-P05 Standard Servo (180°, 4.5 kg·cm)" loading="lazy" src="https://dfimg.dfrobot.com/enshop/image/data/SER0020/SER0020_Main_001.jpg"></div>
+        <div class="card__body">
+          <p class="sku">SER0020</p>
+          <h3 class="cardname">DSS-P05 Standard Servo (180°, 4.5 kg·cm)</h3>
+          <p class="blurb">Higher-torque standard 180° servo for heavier arms, heads and biped-robot joints.</p>
+          <span class="view">View on DFRobot<span class="arw">↗</span></span>
+        </div>
+      </a>
+  </div>
+</section>
+
+<footer class="foot" data-screen-label="Components foot">
+  <p class="big">Pick a sense, pick a motion. Make it turn.</p>
+  <div class="footrow">
+    <p class="fine">Introduction to Interactive Technologies — Final Project. Components by DFRobot; images &amp; specifications courtesy of DFRobot, shown here for educational use.</p>
+    <a class="backlink" href="Showcase.html"><span class="arw">←</span>Back to the showcase</a>
+  </div>
+</footer>
+
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="240" fill="#16130e"/>
+  <rect x="74" y="74" width="92" height="92" rx="8" fill="none" stroke="#e9e2d3" stroke-width="4"/>
+  <circle cx="120" cy="120" r="20" fill="none" stroke="#c98a4b" stroke-width="4"/>
+  <circle cx="120" cy="120" r="4" fill="#c98a4b"/>
+  <path d="M120 74v-16M120 182v-16M74 120H58M182 120h-16" stroke="#e9e2d3" stroke-width="4" stroke-linecap="round"/>
+</svg>
+</template>
+
+<script>
+(function(){
+  var prog=document.getElementById('progress');
+  var revealEls=[].slice.call(document.querySelectorAll('.reveal,.group'));
+  function revealCheck(){
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    revealEls.forEach(function(el){
+      if(el.classList.contains('in'))return;
+      var r=el.getBoundingClientRect();
+      if(r.top<vh*0.88 && r.bottom>0){el.classList.add('in');setTimeout(function(){el.classList.add('shown');},1200);}
+    });
+  }
+  function onScroll(){
+    revealCheck();
+    var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;
+    prog.style.width=(max>0?(h.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();requestAnimationFrame(onScroll);window.addEventListener('load',onScroll);
+})();
+</script>
+</body>
+</html>

@@ -168,8 +168,14 @@ img{transition:filter .6s ease}
   padding-bottom:6px;border-bottom:1px solid var(--fg);transition:gap .35s ease,opacity .35s ease}
 .brieflink:hover{gap:20px;opacity:.62}
 .brieflink .arw{font-family:var(--serif);font-size:18px;line-height:1;letter-spacing:0}
-.links{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(20px,3vw,40px);margin-top:clamp(28px,4vh,44px)}
+.links{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:clamp(28px,4vh,44px)}
 .links .brieflink{margin-top:0}
+.cover .cover-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(32px,6vw,90px);margin-top:clamp(28px,4vh,46px)}
+.cover .cover-bottom .ledecol{min-width:0}
+.cover .cover-bottom .lede{margin-top:0}
+.links--cover{margin-top:0;align-items:flex-end;text-align:right;flex:none}
+.links--cover .brieflink{white-space:nowrap}
+@media (max-width:720px){.cover .cover-bottom{flex-direction:column;align-items:flex-start;gap:clamp(24px,4vh,36px)}.links--cover{align-items:flex-start;text-align:left}.cover .scrollcue{display:none}}
 
 /* ---------- reveals (gated by html.reveal-on so content is visible without JS) ---------- */
 html.reveal-on .reveal>*{opacity:0;transform:translateY(20px);transition:opacity 1s cubic-bezier(.22,.61,.36,1),transform 1.1s cubic-bezier(.22,.61,.36,1)}
@@ -234,12 +240,15 @@ document.documentElement.classList.add('reveal-on');
   <div class="reveal">
     <p class="eyebrow kicker">Final Project &nbsp;·&nbsp; A Curated Selection</p>
     <h1>Spin, Turn<br>&amp; <em>Rotate</em></h1>
-    <p class="lede">Eight projects where perception becomes an act of participation — records of the earth, wheels of light, choruses of seashells, gardens that answer your voice, singing benches, a voice that falls down a spiral, breath made visible, and a globe you spin to tune the world. Scroll to move through them, one by one.</p>
-    <div class="links">
-      <a class="brieflink" href="uploads/assignment-brief.pdf" download>Download the assignment brief (PDF)<span class="arw">↓</span></a>
-      <a class="brieflink" href="Playlist.html">LISTEN TO THE SPINNING PLAYLIST
+  </div>
+  <div class="cover-bottom">
+    <div class="reveal ledecol"><p class="lede">Eight projects where perception becomes an act of participation — records of the earth, wheels of light, choruses of seashells, gardens that answer your voice, singing benches, a voice that falls down a spiral, breath made visible, and a globe you spin to tune the world. Scroll to move through them, one by one.</p></div>
+  <div class="links links--cover reveal">
+    <a class="brieflink" href="uploads/assignment-brief.pdf" download>Download the assignment brief (PDF)<span class="arw">↓</span></a>
+    <a class="brieflink" href="Components.html">Browse the lab components<span class="arw">↗</span></a>
+    <a class="brieflink" href="Playlist.html">LISTEN TO THE SPINNING PLAYLIST
 ↗</a>
-    </div>
+  </div>
   </div>
   <div class="scrollcue"><span class="line"></span>Scroll</div>
 </header>
@@ -412,6 +421,7 @@ document.documentElement.classList.add('reveal-on');
   <div class="links">
     <a class="brieflink" href="uploads/assignment-brief.pdf" download>Download the assignment brief (PDF)<span class="arw">↓</span></a>
     <a class="brieflink" href="Playlist.html">Listen to the companion playlist<span class="arw">↗</span></a>
+    <a class="brieflink" href="Components.html">Browse the lab components<span class="arw">↗</span></a>
   </div>
 </footer>
 
